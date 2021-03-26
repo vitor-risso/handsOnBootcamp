@@ -1,0 +1,10 @@
+com/example/how2x/databinding/ActivityMainBinding.java
+ com.example.how2x.databinding.ActivityMainBinding
+com/example/how2x/databinding/DepositFragmentBinding.java
+ com.example.how2x.databinding.DepositFragmentBinding
+com/example/how2x/databinding/MyaccountFragmentBinding.java
+ com.example.how2x.databinding.MyaccountFragmentBinding
+com/example/how2x/databinding/WithdrawFragmentBinding.java
+ com.example.how2x.databinding.WithdrawFragmentBinding
+com/example/how2x/BuildConfig.java
+ com.example.how2x.BuildConfig
