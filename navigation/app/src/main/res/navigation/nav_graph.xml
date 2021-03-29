@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/fragmentMain">
+
+    <fragment
+        android:id="@+id/fragmentMain"
+        android:label="fragment_blank"
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/nextFlow"
+            app:destination="@id/fragmentOne" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentOne"
+        android:name="com.yagi2.navigationsample.FlowFragment"
+        android:label="fragment_blank_fragment2"
+        tools:layout="@layout/fragment_one">
+        <argument
+            android:name="number"
+            android:defaultValue="1"
+            app:argType="integer" />
+
+        <action
+            android:id="@+id/nextFlow"
+            app:destination="@id/fragmentTwo" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentTwo"
+        android:label="fragment_blank_fragment2"
+        tools:layout="@layout/fragment_one">
+        <action
+            android:id="@+id/nextFlow"
+            app:destination="@id/fragmentMain" />
+    </fragment>
+
+</navigation>
