@@ -77,13 +77,16 @@ class GameViewModel : ViewModel() {
     /** Methods for buttons presses **/
     fun onSkip() {
         _score.value?.let {
-
-
             if (wordList.size > 0) {
-                if (it > 0) {
-                    _score.value = (score.value)?.minus(1)
-                }
+                _score.value = (score.value)?.minus(1)
                 nextWord()
+            }
+            if (wordList.isEmpty()) {
+                _score.value = (score.value)?.minus(1)
+                onGameFinish()
+            } else {
+                //Select and remove a _word from the list
+                _word.value = wordList.removeAt(0)
             }
         }
     }
@@ -91,7 +94,6 @@ class GameViewModel : ViewModel() {
     private val listSize = wordList.size
     fun onCorrect() {
         _score.value?.let {
-
             if (it < listSize) {
                 _score.value = (score.value)?.plus(1)
                 nextWord()
@@ -105,7 +107,7 @@ class GameViewModel : ViewModel() {
     }
 
     /** Method for the game completed event **/
-    private fun onGameFinish() {
+    fun onGameFinish() {
         _eventGameFinish.value = true
     }
 
