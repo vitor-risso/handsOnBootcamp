@@ -6,6 +6,7 @@
 
     <fragment
         android:id="@+id/fragmentMain"
+        android:name="com.example.navigation.Flow"
         android:label="fragment_blank"
         tools:layout="@layout/fragment_main">
         <action
@@ -15,9 +16,10 @@
 
     <fragment
         android:id="@+id/fragmentOne"
-        android:name="com.yagi2.navigationsample.FlowFragment"
+        android:name="com.example.navigation.Flow"
         android:label="fragment_blank_fragment2"
         tools:layout="@layout/fragment_one">
+
         <argument
             android:name="number"
             android:defaultValue="1"
@@ -30,8 +32,13 @@
 
     <fragment
         android:id="@+id/fragmentTwo"
+        android:name="com.example.navigation.Flow"
         android:label="fragment_blank_fragment2"
-        tools:layout="@layout/fragment_one">
+        tools:layout="@layout/fragment_two">
+        <argument
+            android:name="number"
+            android:defaultValue="2"
+            app:argType="integer" />
         <action
             android:id="@+id/nextFlow"
             app:destination="@id/fragmentMain" />

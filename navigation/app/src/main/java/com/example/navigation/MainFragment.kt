@@ -8,7 +8,7 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 
-class Flow : Fragment() {
+class MainFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -17,11 +17,7 @@ class Flow : Fragment() {
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
-        return when (arguments?.get("number")!!) {
-            1 -> inflater.inflate(R.layout.fragment_one, container, false)
-            2 -> inflater.inflate(R.layout.fragment_two, container, false)
-            else -> throw NullPointerException()
-        }
+        return inflater.inflate(R.layout.fragment_main, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
