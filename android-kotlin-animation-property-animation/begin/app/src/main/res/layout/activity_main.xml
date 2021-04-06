@@ -86,9 +86,20 @@
         android:layout_marginStart="@dimen/standard_margin"
         android:layout_marginBottom="@dimen/standard_margin"
         android:text="@string/sky_color"
-        app:layout_constraintEnd_toEndOf="@+id/translateButton"
+        app:layout_constraintEnd_toEndOf="@id/translateButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rotateButton" />
+
+    <Button
+        android:id="@+id/backFlipsButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/standard_margin"
+        android:layout_marginBottom="@dimen/standard_margin"
+        android:text="@string/back_flips"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/colorizeButton" />
 
     <FrameLayout
         android:layout_width="match_parent"

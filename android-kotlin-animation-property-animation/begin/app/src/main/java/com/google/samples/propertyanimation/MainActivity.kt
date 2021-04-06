@@ -38,7 +38,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var scaleButton: Button
     private lateinit var fadeButton: Button
     private lateinit var colorizeButton: Button
-    lateinit var showerButton: Button
+    private lateinit var showerButton: Button
+    private lateinit var backFlipsButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +52,7 @@ class MainActivity : AppCompatActivity() {
         fadeButton = findViewById<Button>(R.id.fadeButton)
         colorizeButton = findViewById<Button>(R.id.colorizeButton)
         showerButton = findViewById<Button>(R.id.showerButton)
+        backFlipsButton = findViewById<Button>(R.id.backFlipsButton)
 
         rotateButton.setOnClickListener {
             rotater()
@@ -74,6 +76,10 @@ class MainActivity : AppCompatActivity() {
 
         showerButton.setOnClickListener {
             shower()
+        }
+
+        backFlipsButton.setOnClickListener {
+            backFlips()
         }
     }
 
@@ -196,6 +202,13 @@ class MainActivity : AppCompatActivity() {
             }
         })
         set.start()
+    }
+
+    private fun backFlips(){
+        val animator = ObjectAnimator.ofFloat(star, View.ROTATION_X, -360f, 0f)
+        animator.duration = 1000
+        animator.disableViewDuringAnimation(backFlipsButton)
+        animator.start()
     }
 
 }
