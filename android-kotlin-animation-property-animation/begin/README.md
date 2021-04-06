@@ -1,4 +1,4 @@
-PropertyAnimation - Final Code
+ PropertyAnimation - Final Code
 ============================================================================
 
 Starter code for PropertyAnimation codelab
