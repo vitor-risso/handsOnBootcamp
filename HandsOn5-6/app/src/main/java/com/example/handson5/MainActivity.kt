@@ -64,6 +64,8 @@ class MainActivity : AppCompatActivity(), MovieAdapter.MovieListener {
         binding.eraseMoviesBtn.setOnClickListener {
             viewModel.setIsLoading(false)
             movieAdapter.updateList(emptyList())
+	   binding.pageModeBtn.isEnabled = false
+
         }
 
         binding.pageModeBtn.setOnClickListener {
