@@ -21,10 +21,6 @@ class Adapter(
         val text: TextView = view.findViewById(R.id.title)
     }
 
-    init {
-        Log.d("VITOR", "TEST")
-    }
-
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         holder.text.text = data[position].name
     }

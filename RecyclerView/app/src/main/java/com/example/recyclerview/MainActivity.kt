@@ -3,6 +3,7 @@ package com.example.recyclerview
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recyclerview.model.Adapter
 import com.example.recyclerview.model.Data
@@ -23,5 +24,7 @@ class MainActivity : AppCompatActivity() {
         data = Data().getData()
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.adapter = Adapter(this, data)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
     }
 }
