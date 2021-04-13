@@ -3,8 +3,10 @@ package com.example.notificationsbootcamp
 import android.app.NotificationChannel
 import android.app.NotificationChannelGroup
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.ContentResolver
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.media.AudioAttributes
@@ -12,6 +14,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import kotlin.random.Random.Default.nextInt
@@ -50,6 +53,17 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.intent).setOnClickListener {
             fifthNotification()
+        }
+
+        findViewById<Button>(R.id.action).setOnClickListener {
+            sixthNotification()
+        }
+
+        if(intent.hasExtra("NOTIFICATION")){
+            Toast.makeText(this, intent.getStringExtra("NOTIFICATION"), Toast.LENGTH_SHORT).show()
+
+            val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            manager.cancelAll()
         }
     }
 
@@ -95,7 +109,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun fourthNotification() {
-        val builder = NotificationCompat.Builder(this, DEFAULT_CHANNEL)
+        val builder = NotificationCompat.Builder(this, "bounce")
             .setContentTitle("Fourth $DEFAULT_TITLE")
             .setContentTitle("Fourth $DEFAULT_MESSAGE")
             .setSound(buildBounceSoundUri())
@@ -106,10 +120,50 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun fifthNotification() {
+        val intent = Intent(this, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+
+        val pendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
+
         val builder = NotificationCompat.Builder(this, "bounce")
-            .setSmallIcon(R.drawable.ic_pizza_24)
-            .setContentText("Fifth $DEFAULT_MESSAGE")
             .setContentTitle("Fifth $DEFAULT_TITLE")
+            .setContentText("Fifth $DEFAULT_MESSAGE")
+            .setSmallIcon(R.drawable.ic_pizza_24)
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
+
+        dispatchNotification(builder)
+    }
+
+    private fun sixthNotification() {
+        val intent = Intent(this, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            putExtra("NOTIFICATION", "Notification A")
+        }
+
+        val pendingIntent =
+            PendingIntent.getActivity(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        val secondIntent = Intent(this, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            putExtra("NOTIFICATION", "Notification B")
+        }
+
+        val pendingSecondIntent =
+            PendingIntent.getActivity(this, 2, secondIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        val builder = NotificationCompat.Builder(this, DEFAULT_CHANNEL)
+            .setContentText("Message $DEFAULT_MESSAGE")
+            .setContentTitle("Title $DEFAULT_TITLE")
+            .setSmallIcon(R.drawable.ic_pizza_24)
+            .setAutoCancel(true)
+            .addAction(
+                NotificationCompat.Action.Builder(null, "Option A", pendingIntent).build()
+            )
+            .addAction(
+                NotificationCompat.Action.Builder(null, "Option B", pendingSecondIntent).build()
+            )
 
         dispatchNotification(builder)
     }
@@ -123,9 +177,9 @@ class MainActivity : AppCompatActivity() {
             val channel = NotificationChannel(
                 "bounce", "Bounce", NotificationManager.IMPORTANCE_HIGH
             ).apply {
-                description =  DEFAULT_MESSAGE
+                description = DEFAULT_MESSAGE
                 group = "custom"
-                vibrationPattern = longArrayOf(1000,1000,1000)
+                vibrationPattern = longArrayOf(1000, 1000, 1000)
 
                 setSound(buildBounceSoundUri(), audioAttributes)
             }
@@ -156,8 +210,6 @@ class MainActivity : AppCompatActivity() {
             manager.createNotificationChannelGroup(group)
         }
     }
-
-
 
     private fun buildBounceSoundUri() =
         Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + packageName + "/" + R.raw.bounce)
