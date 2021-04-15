@@ -17,6 +17,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
+import androidx.core.app.RemoteInput
 import kotlin.random.Random.Default.nextInt
 
 
@@ -59,7 +60,8 @@ class MainActivity : AppCompatActivity() {
             sixthNotification()
         }
 
-        if(intent.hasExtra("NOTIFICATION")){
+        if (intent.hasExtra("NOTIFICATION")) {
+
             Toast.makeText(this, intent.getStringExtra("NOTIFICATION"), Toast.LENGTH_SHORT).show()
 
             val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -153,19 +155,68 @@ class MainActivity : AppCompatActivity() {
         val pendingSecondIntent =
             PendingIntent.getActivity(this, 2, secondIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
+        val thirdIntent = Intent(this, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+
+        val remoteInput: RemoteInput = RemoteInput.Builder("KEY_TEXT_REPLY").run {
+            setLabel("Reply")
+            build()
+        }
+
+        val pendingThirdActivity = PendingIntent.getBroadcast(
+            applicationContext,
+            3,
+            thirdIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
         val builder = NotificationCompat.Builder(this, DEFAULT_CHANNEL)
             .setContentText("Message $DEFAULT_MESSAGE")
             .setContentTitle("Title $DEFAULT_TITLE")
             .setSmallIcon(R.drawable.ic_pizza_24)
             .setAutoCancel(true)
             .addAction(
-                NotificationCompat.Action.Builder(null, "Option A", pendingIntent).build()
+
+                NotificationCompat.Action.Builder(
+                    null,
+                    "Option A",
+                    pendingIntent
+                )
+                    .build()
+
             )
             .addAction(
-                NotificationCompat.Action.Builder(null, "Option B", pendingSecondIntent).build()
+
+                NotificationCompat.Action.Builder(
+                    null,
+                    "Option B",
+                    pendingSecondIntent
+                )
+                    .build()
+
+            )
+
+            .addAction(
+
+                NotificationCompat.Action.Builder(
+                    null,
+                    "ola",
+                    pendingThirdActivity
+                )
+                    .addRemoteInput(remoteInput)
+                    .build()
             )
 
         dispatchNotification(builder)
+    }
+
+    private fun getMessageText(intent: Intent): CharSequence? {
+        return RemoteInput.getResultsFromIntent(intent)?.getCharSequence("KEY_TEXT_REPLY")
+    }
+
+    private fun putMessage(intent: Intent?) {
+        intent?.putExtra("NOTIFICATION", intent?.let { getMessageText(it) })
     }
 
     private fun createBounceNotificationChannel() {
